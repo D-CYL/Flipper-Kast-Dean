@@ -28,13 +28,28 @@ void setup() {
   Serial.begin(9600);
   pinMode(irSense, INPUT);
 
-  // Instellen van de pinnen voor de flipperknoppen
-  pinMode(flipperLeft, INPUT_PULLUP);   // indrukken geeft LOW
-  pinMode(flipperRight, INPUT_PULLUP);  // indrukken geeft LOW
+  // Initialiseer met het I2C-adres 0x3C (gebruikelijk voor 128x64-schermen)
+  // Werkt dit niet, probeer dan adres 0x3D
+  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
+    Serial.println(F("SSD1306 initialisatie mislukt"));
+    for(;;); // Niet verder gaan, blijf oneindig herhalen
+  }
 
-  // Servo's aansluiten
-  leftServo.attach(9);   // servo aansluiten op pin 9
-  rightServo.attach(10); // servo aansluiten op pin 10
+  // Scherm leegmaken
+  display.clearDisplay();
+
+  // Tekst op scherm weergeven
+  display.setTextSize(1);
+  display.setTextColor(SSD1306_WHITE);
+  display.display();
+
+  // Instellen van de pinnen voor de flipperknoppen
+  // pinMode(flipperLeft, INPUT_PULLUP);   // indrukken geeft LOW
+  // pinMode(flipperRight, INPUT_PULLUP);  // indrukken geeft LOW
+
+  // // Servo's aansluiten
+  // leftServo.attach(9);   // servo aansluiten op pin 9
+  // rightServo.attach(10); // servo aansluiten op pin 10
 }
 
 void loop() {
@@ -51,8 +66,6 @@ void loop() {
   display.clearDisplay();
 
   // Tekst op scherm weergeven
-  display.setTextSize(1);
-  display.setTextColor(SSD1306_WHITE);
   display.setCursor(0, 0);
   display.println("Hello, World!!!");
   display.println();
@@ -61,39 +74,39 @@ void loop() {
   display.display();
 
   // Status van de linker flipperknop uitlezen
-  int flipperStatusLeft = digitalRead(flipperLeft);
+  // int flipperStatusLeft = digitalRead(flipperLeft);
 
-  if (flipperStatusLeft == LOW) {
-    leftServo.write(flipperUp);
-    // if (previousLeftState == HIGH) {
-    //   points++;
-    // Serial.print("Punten: "); 
-    // Serial.println(points);
-    // }
-  } else {
-    leftServo.write(0);
-  }
+  // if (flipperStatusLeft == LOW) {
+  //   leftServo.write(flipperUp);
+  //   // if (previousLeftState == HIGH) {
+  //   //   points++;
+  //   // Serial.print("Punten: "); 
+  //   // Serial.println(points);
+  //   // }
+  // } else {
+  //   leftServo.write(0);
+  // }
 
-  // Status van de rechter flipperknop uitlezen
-  int flipperStatusRight = digitalRead(flipperRight);
+  // // Status van de rechter flipperknop uitlezen
+  // int flipperStatusRight = digitalRead(flipperRight);
 
-  if (flipperStatusRight == LOW) {
-    rightServo.write(flipperUp);
-    // if (previousRightState == HIGH) {
-    //   points++;
-    // Serial.print("Punten: "); 
-    // display.println(points);
-    // }
-  } else {
-    rightServo.write(0);
-  }
+  // if (flipperStatusRight == LOW) {
+  //   rightServo.write(flipperUp);
+  //   // if (previousRightState == HIGH) {
+  //   //   points++;
+  //   // Serial.print("Punten: "); 
+  //   // display.println(points);
+  //   // }
+  // } else {
+  //   rightServo.write(0);
+  // }
 
 
 
   if (detectSensor == LOW) {
   Serial.println("Iets in de weg");
-    // points++;
-    // display.println(points);
+    points++;
+    display.println(points);
   } else {
   Serial.println("Niks in de weg");
   }
