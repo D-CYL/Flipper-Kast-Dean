@@ -55,13 +55,6 @@ void setup() {
 void loop() {
   int detectSensor = digitalRead(irSense);
 
-  // Initialiseer met het I2C-adres 0x3C (gebruikelijk voor 128x64-schermen)
-  // Werkt dit niet, probeer dan adres 0x3D
-  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
-    Serial.println(F("SSD1306 initialisatie mislukt"));
-    for(;;); // Niet verder gaan, blijf oneindig herhalen
-  }
-
   // Scherm leegmaken
   display.clearDisplay();
 
