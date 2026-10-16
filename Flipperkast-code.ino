@@ -60,7 +60,7 @@ void loop() {
 
   // Tekst op scherm weergeven
   display.setCursor(0, 0);
-  display.println("Hello, World!!!");
+  display.println("Hello, World!!!\n");
   display.println();
   display.println(points);
 
